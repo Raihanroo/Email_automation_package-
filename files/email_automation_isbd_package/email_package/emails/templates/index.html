@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Automation System - Innovative Skills BD</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBackground 20s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes moveBackground {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .upload-section {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+
+        .upload-area:hover {
+            background: #e9ecef;
+            border-color: #764ba2;
+        }
+
+        .upload-area.dragover {
+            background: #e7e9fc;
+            border-color: #764ba2;
+        }
+
+        .upload-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .upload-text {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .upload-subtext {
+            font-size: 14px;
+            color: #999;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px 5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .table-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow-x: auto;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .table-header h2 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-sent {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .link-btn {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .link-btn:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            transition: all 0.3s;
+            margin-right: 8px;
+            box-shadow: 0 2px 8px rgba(17, 153, 142, 0.3);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(17, 153, 142, 0.5);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .delete-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+        }
+
+        .delete-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.5);
+        }
+
+        .action-cell {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.3s;
+            margin: 0 4px;
+        }
+
+        .icon-btn.send {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(17, 153, 142, 0.3);
+        }
+
+        .icon-btn.send:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 4px 12px rgba(17, 153, 142, 0.5);
+        }
+
+        .icon-btn.delete {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+        }
+
+        .icon-btn.delete:hover {
+            transform: scale(1.1) rotate(-5deg);
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.5);
+        }
+
+        .icon-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .rate-limit-info {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: slideDown 0.3s;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .close {
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            line-height: 1;
+        }
+
+        .close:hover {
+            transform: scale(1.2);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .form-hint {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .modal-footer {
+            padding: 20px 30px;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .placeholder-btn {
+            padding: 6px 12px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .placeholder-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📧 Email Automation System</h1>
+            <p>Innovative Skills BD - Course Enrollment Management</p>
+        </div>
+
+        <!-- Alert Messages -->
+        <div id="alertSuccess" class="alert alert-success"></div>
+        <div id="alertError" class="alert alert-error"></div>
+        <div id="alertWarning" class="alert alert-warning"></div>
+
+        <!-- Rate Limit Info -->
+        <div class="rate-limit-info">
+            🤖 Auto-Send: 20 emails per hour | Background system running | 3 minutes between emails
+        </div>
+
+        <!-- Upload Section -->
+        <div class="upload-section">
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">Click to upload or drag and drop</div>
+                <div class="upload-subtext">Excel file (.xlsx, .xls) with columns: Name, Email, Mobile, Course Name, Link</div>
+                <input type="file" id="fileInput" accept=".xlsx,.xls">
+            </div>
+            <div style="text-align: center; margin-top: 15px;">
+                <label style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: #fff3cd; border-radius: 10px; cursor: pointer; font-weight: 600; color: #856404; border: 2px solid #ffeaa7;">
+                    <input type="checkbox" id="replaceAllCheckbox" style="width: 18px; height: 18px; cursor: pointer;">
+                    <span>🔄 Replace all existing data (Delete old data before upload)</span>
+                </label>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn btn-primary" id="uploadBtn" disabled>📤 Upload & Import</button>
+                <button class="btn btn-success" id="sendAllBtn" disabled>✉️ Send All Emails</button>
+                <button class="btn btn-primary" id="createTemplateBtn">📝 Create Template</button>
+                <button class="btn btn-danger" id="deleteAllBtn" disabled>🗑️ Delete All Data</button>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p style="margin-top: 15px; color: white; font-weight: bold;">Processing...</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats" id="stats" style="display: none;">
+            <div class="stat-card">
+                <div class="stat-number" id="totalStudents">0</div>
+                <div class="stat-label">Total Students</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="emailsSent">0</div>
+                <div class="stat-label">Emails Sent</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="emailsPending">0</div>
+                <div class="stat-label">Pending</div>
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="table-section">
+            <div class="table-header">
+                <h2>📋 Student List</h2>
+                <button class="btn btn-primary" id="refreshBtn">🔄 Refresh</button>
+            </div>
+            
+            <div id="tableContent">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📭</div>
+                    <h3>No students yet</h3>
+                    <p>Upload an Excel file to get started</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template Modal -->
+    <div id="templateModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📝 Create Custom Email Template</h2>
+                <span class="close" id="closeModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="templateForm">
+                    <div class="form-group">
+                        <label for="templateSubject">Subject *</label>
+                        <input 
+                            type="text" 
+                            id="templateSubject" 
+                            placeholder="Enter email subject"
+                            required
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="templateMessage">Message *</label>
+                        <textarea 
+                            id="templateMessage" 
+                            placeholder="Enter your message here..."
+                            required
+                        ></textarea>
+                        <div style="margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap;" id="messagePlaceholders">
+                            <!-- Dynamic buttons will be inserted here -->
+                        </div>
+                        <div class="form-hint">
+                            💡 Click buttons to insert {name}, {course_name}, {link} - will be replaced automatically for each student
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                <button class="btn btn-success" id="submitTemplateBtn">📧 Send to All Students</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const sendAllBtn = document.getElementById('sendAllBtn');
+        const deleteAllBtn = document.getElementById('deleteAllBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const createTemplateBtn = document.getElementById('createTemplateBtn');
+        const templateModal = document.getElementById('templateModal');
+        const closeModal = document.getElementById('closeModal');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const submitTemplateBtn = document.getElementById('submitTemplateBtn');
+        const templateForm = document.getElementById('templateForm');
+        const loading = document.getElementById('loading');
+        const alertSuccess = document.getElementById('alertSuccess');
+        const alertError = document.getElementById('alertError');
+        const alertWarning = document.getElementById('alertWarning');
+        const stats = document.getElementById('stats');
+        
+        let selectedFile = null;
+
+        // Upload area click
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        // File selection
+        fileInput.addEventListener('change', (e) => {
+            selectedFile = e.target.files[0];
+            if (selectedFile) {
+                uploadArea.querySelector('.upload-text').textContent = `Selected: ${selectedFile.name}`;
+                uploadBtn.disabled = false;
+            }
+        });
+
+        // Drag and drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            selectedFile = e.dataTransfer.files[0];
+            if (selectedFile) {
+                uploadArea.querySelector('.upload-text').textContent = `Selected: ${selectedFile.name}`;
+                uploadBtn.disabled = false;
+            }
+        });
+
+        // Upload button
+        uploadBtn.addEventListener('click', async () => {
+            if (!selectedFile) return;
+
+            const replaceAll = document.getElementById('replaceAllCheckbox').checked;
+
+            // Show confirmation if replace all is checked
+            if (replaceAll) {
+                if (!confirm('⚠️ This will DELETE all existing data and upload new data. Are you sure?')) {
+                    return;
+                }
+            }
+
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+            formData.append('replace_all', replaceAll);
+
+            loading.style.display = 'block';
+            uploadBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/upload/', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showAlert('success', data.message);
+                    if (data.warning) {
+                        showAlert('warning', data.warning);
+                    }
+                    if (data.deleted_count) {
+                        showAlert('warning', `🗑️ Deleted ${data.deleted_count} old records before upload`);
+                    }
+                    loadStudents();
+                    selectedFile = null;
+                    fileInput.value = '';
+                    document.getElementById('replaceAllCheckbox').checked = false;
+                    uploadArea.querySelector('.upload-text').textContent = 'Click to upload or drag and drop';
+                } else {
+                    showAlert('error', data.error || 'Upload failed');
+                }
+            } catch (error) {
+                showAlert('error', 'Network error: ' + error.message);
+            } finally {
+                loading.style.display = 'none';
+            }
+        });
+
+        // Send all emails
+        sendAllBtn.addEventListener('click', async () => {
+            if (!confirm('Send emails to all pending students?')) return;
+
+            loading.style.display = 'block';
+            sendAllBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/send-emails/', {
+                    method: 'POST'
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showAlert('success', data.message);
+                    loadStudents();
+                } else {
+                    showAlert('error', data.error || 'Failed to send emails');
+                }
+            } catch (error) {
+                showAlert('error', 'Network error: ' + error.message);
+            } finally {
+                loading.style.display = 'none';
+                sendAllBtn.disabled = false;
+            }
+        });
+
+        // Refresh button
+        refreshBtn.addEventListener('click', loadStudents);
+
+        // Delete all button
+        deleteAllBtn.addEventListener('click', async () => {
+            if (!confirm('⚠️ Are you sure you want to delete ALL students? This cannot be undone!')) return;
+            
+            if (!confirm('⚠️ FINAL WARNING: This will permanently delete all data!')) return;
+
+            loading.style.display = 'block';
+            deleteAllBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/delete-all/', {
+                    method: 'DELETE'
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showAlert('success', data.message);
+                    loadStudents();
+                } else {
+                    showAlert('error', data.error || 'Failed to delete data');
+                }
+            } catch (error) {
+                showAlert('error', 'Network error: ' + error.message);
+            } finally {
+                loading.style.display = 'none';
+            }
+        });
+
+        // Load students
+        async function loadStudents() {
+            loading.style.display = 'block';
+
+            try {
+                const response = await fetch('/api/students/');
+                const students = await response.json();
+
+                if (students.length === 0) {
+                    document.getElementById('tableContent').innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📭</div>
+                            <h3>No students yet</h3>
+                            <p>Upload an Excel file to get started</p>
+                        </div>
+                    `;
+                    stats.style.display = 'none';
+                    sendAllBtn.disabled = true;
+                    deleteAllBtn.disabled = true;
+                } else {
+                    renderTable(students);
+                    updateStats(students);
+                    stats.style.display = 'grid';
+                    
+                    const hasPending = students.some(s => !s.email_sent);
+                    sendAllBtn.disabled = !hasPending;
+                    deleteAllBtn.disabled = false;
+                }
+            } catch (error) {
+                showAlert('error', 'Failed to load students');
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        // Render table
+        function renderTable(students) {
+            const html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
+                            <th>Course Name</th>
+                            <th>Link</th>
+                            <th>Template Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${students.map((student, index) => `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${student.name}</td>
+                                <td>${student.email}</td>
+                                <td>${student.mobile || 'N/A'}</td>
+                                <td>${student.course_name}</td>
+                                <td>
+                                    <a href="#" class="link-btn" onclick="handleLinkClick(event, ${student.id}, '${student.link}')">
+                                        🔗 View & Notify
+                                    </a>
+                                </td>
+                                <td>
+                                    <span class="status-badge ${student.template_sent ? 'status-sent' : 'status-pending'}">
+                                        ${student.template_sent ? '✓ Sent' : '⏳ Not Sent'}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-cell">
+                                        <button 
+                                            class="icon-btn delete" 
+                                            onclick="deleteStudent(${student.id}, '${student.name}')"
+                                            title="Delete student">
+                                            🗑️
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            document.getElementById('tableContent').innerHTML = html;
+        }
+
+        // Update stats
+        function updateStats(students) {
+            const total = students.length;
+            const sent = students.filter(s => s.email_sent).length;
+            const pending = total - sent;
+
+            document.getElementById('totalStudents').textContent = total;
+            document.getElementById('emailsSent').textContent = sent;
+            document.getElementById('emailsPending').textContent = pending;
+        }
+
+        // Send single email
+        async function sendSingleEmail(studentId) {
+            loading.style.display = 'block';
+
+            try {
+                const response = await fetch(`/api/send-email/${studentId}/`, {
+                    method: 'POST'
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showAlert('success', data.message);
+                    loadStudents();
+                } else {
+                    showAlert('error', data.error || 'Failed to send email');
+                }
+            } catch (error) {
+                showAlert('error', 'Network error: ' + error.message);
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        // Handle link click - send notification and open link
+        async function handleLinkClick(event, studentId, link) {
+            event.preventDefault();
+            
+            loading.style.display = 'block';
+
+            try {
+                const response = await fetch(`/api/notify-admin/${studentId}/`, {
+                    method: 'POST'
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showAlert('success', '✉️ Notification sent to your email! Opening course page...');
+                    
+                    // Open link in new tab after short delay
+                    setTimeout(() => {
+                        window.open(link, '_blank');
+                    }, 1000);
+                } else {
+                    showAlert('error', data.error || 'Failed to send notification');
+                }
+            } catch (error) {
+                showAlert('error', 'Network error: ' + error.message);
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        // Delete single student
+        async function deleteStudent(studentId, studentName) {
+            if (!confirm(`Are you sure you want to delete ${studentName}?`)) return;
+
+            loading.style.display = 'block';
+
+            try {
+                const response = await fetch(`/api/delete-student/${studentId}/`, {
+                    method: 'DELETE'
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showAlert('success', data.message);
+                    loadStudents();
+                } else {
+                    showAlert('error', data.error || 'Failed to delete student');
+                }
+            } catch (error) {
+                showAlert('error', 'Network error: ' + error.message);
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        // Show alert
+        function showAlert(type, message) {
+            let alert;
+            if (type === 'success') {
+                alert = alertSuccess;
+            } else if (type === 'warning') {
+                alert = alertWarning;
+            } else {
+                alert = alertError;
+            }
+            
+            alert.textContent = message;
+            alert.style.display = 'block';
+            
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        }
+
+        // Modal functionality
+        createTemplateBtn.addEventListener('click', () => {
+            templateModal.style.display = 'block';
+            createPlaceholderButtons();
+        });
+
+        // Create dynamic placeholder buttons
+        function createPlaceholderButtons() {
+            const messageContainer = document.getElementById('messagePlaceholders');
+            
+            const placeholders = [
+                { text: '👤 Name', value: '{name}' },
+                { text: '📚 Course Name', value: '{course_name}' },
+                { text: '🔗 Link', value: '{link}' }
+            ];
+            
+            // Clear existing buttons
+            messageContainer.innerHTML = '';
+            
+            // Create buttons for message only
+            placeholders.forEach(placeholder => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'placeholder-btn';
+                btn.textContent = placeholder.text;
+                btn.onclick = () => insertPlaceholder('templateMessage', placeholder.value);
+                messageContainer.appendChild(btn);
+            });
+        }
+
+        // Insert placeholder at cursor position
+        function insertPlaceholder(fieldId, placeholder) {
+            const field = document.getElementById(fieldId);
+            const startPos = field.selectionStart;
+            const endPos = field.selectionEnd;
+            const currentValue = field.value;
+            
+            // Insert placeholder at cursor position
+            const newValue = currentValue.substring(0, startPos) + placeholder + currentValue.substring(endPos);
+            field.value = newValue;
+            
+            // Set cursor position after inserted placeholder
+            const newCursorPos = startPos + placeholder.length;
+            field.setSelectionRange(newCursorPos, newCursorPos);
+            field.focus();
+        }
+
+        closeModal.addEventListener('click', () => {
+            templateModal.style.display = 'none';
+            templateForm.reset();
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            templateModal.style.display = 'none';
+            templateForm.reset();
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (event) => {
+            if (event.target === templateModal) {
+                templateModal.style.display = 'none';
+                templateForm.reset();
+            }
+        });
+
+        // Submit template
+        submitTemplateBtn.addEventListener('click', async () => {
+            const subject = document.getElementById('templateSubject').value.trim();
+            const message = document.getElementById('templateMessage').value.trim();
+
+            if (!subject || !message) {
+                showAlert('error', 'Please fill in both subject and message');
+                return;
+            }
+
+            if (!confirm('Send this custom template to ALL students? (Everyone will receive this email)')) {
+                return;
+            }
+
+            loading.style.display = 'block';
+            submitTemplateBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/send-template/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        subject: subject,
+                        message: message
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showAlert('success', data.message + ' - Table will update automatically...');
+                    templateModal.style.display = 'none';
+                    templateForm.reset();
+                    
+                    // Start auto-refresh to show real-time updates
+                    startAutoRefresh();
+                } else {
+                    showAlert('error', data.error || 'Failed to send template');
+                }
+            } catch (error) {
+                showAlert('error', 'Network error: ' + error.message);
+            } finally {
+                loading.style.display = 'none';
+                submitTemplateBtn.disabled = false;
+            }
+        });
+
+        // Auto-refresh functionality for real-time updates
+        let autoRefreshInterval = null;
+        let refreshCount = 0;
+        const MAX_REFRESHES = 30; // Refresh for max 30 times (30 seconds if 1s interval)
+
+        function startAutoRefresh() {
+            // Clear any existing interval
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+            }
+            
+            refreshCount = 0;
+            
+            // Refresh every 1 second to show real-time updates
+            autoRefreshInterval = setInterval(() => {
+                refreshCount++;
+                loadStudents();
+                
+                // Stop after MAX_REFRESHES or when all emails are sent
+                if (refreshCount >= MAX_REFRESHES) {
+                    stopAutoRefresh();
+                }
+            }, 1000); // 1 second interval
+            
+            console.log('🔄 Auto-refresh started - table will update every 1 second');
+        }
+
+        function stopAutoRefresh() {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
+                console.log('⏹️ Auto-refresh stopped');
+            }
+        }
+
+        // Stop auto-refresh when user manually refreshes
+        refreshBtn.addEventListener('click', () => {
+            stopAutoRefresh();
+            loadStudents();
+        });
+
+        // Load students on page load
+        loadStudents();
+    </script>
+</body>
+</html>

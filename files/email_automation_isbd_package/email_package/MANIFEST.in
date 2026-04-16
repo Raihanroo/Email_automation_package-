@@ -1,0 +1,17 @@
+include README.md
+include LICENSE
+include pyproject.toml
+include requirements.txt
+include .env.example
+include manage.py
+
+recursive-include emails/templates *.html
+recursive-include emails/migrations *.py
+recursive-include email_project *.py
+
+global-exclude __pycache__
+global-exclude *.py[co]
+global-exclude *.sqlite3
+global-exclude .git*
+global-exclude .vscode
+prune **/__pycache__

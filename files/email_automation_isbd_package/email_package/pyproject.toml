@@ -1,0 +1,81 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "email-automation-isbd"
+version = "1.0.0"
+description = "Professional email automation system for sending personalized course enrollment emails with custom templates and real-time tracking."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+authors = [
+    { name = "Innovative Skills BD", email = "innovativeskillsbd@gmail.com" }
+]
+keywords = ["django", "email", "automation", "template", "bulk-email"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: Django",
+    "Framework :: Django :: 5.2",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Communications :: Email",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+]
+dependencies = [
+    "Django>=5.2.1",
+    "djangorestframework>=3.15.2",
+    "pandas>=2.2.3",
+    "openpyxl>=3.1.5",
+    "requests>=2.31.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-django>=4.5",
+    "black>=23.0",
+    "flake8>=6.0",
+]
+production = [
+    "gunicorn>=21.0",
+    "psycopg2-binary>=2.9",
+    "python-decouple>=3.8",
+    "whitenoise>=6.6",
+]
+
+[project.urls]
+Homepage = "https://github.com/innovativeskillsbd/email-automation"
+Documentation = "https://github.com/innovativeskillsbd/email-automation#readme"
+Repository = "https://github.com/innovativeskillsbd/email-automation"
+Issues = "https://github.com/innovativeskillsbd/email-automation/issues"
+
+[project.scripts]
+email-automation = "manage:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["emails*", "email_project*"]
+exclude = ["*.pyc", "__pycache__", "*.egg-info", "db.sqlite3"]
+
+[tool.setuptools.package-data]
+"emails" = [
+    "templates/**/*.html",
+    "migrations/*.py",
+]
+"email_project" = ["*.py"]
+
+[tool.black]
+line-length = 88
+target-version = ["py310", "py311"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "email_project.settings"
+python_files = ["tests.py", "test_*.py"]
